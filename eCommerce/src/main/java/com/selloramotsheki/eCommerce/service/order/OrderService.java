@@ -32,6 +32,7 @@ public class OrderService implements IOrderService{
 
         Order order = createOrder(cart);
         List<OrderItem> orderItemList = createOrderItems(order, cart);
+
         order.setOrderItems(new HashSet<>(orderItemList));
         order.setTotalAmount(calculateTotalAmount(orderItemList));
         Order savedOrder = orderRepository.save(order);
@@ -76,5 +77,9 @@ public class OrderService implements IOrderService{
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
     }
 
+    @Override
+    public List<Order> getUserOrders(Long userId){
+        return orderRepository.findByUserId(userId);
+    }
 
 }
