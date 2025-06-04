@@ -2,6 +2,7 @@ package com.selloramotsheki.eCommerce.service.product;
 
 import com.selloramotsheki.eCommerce.Dto.ImageDto;
 import com.selloramotsheki.eCommerce.Dto.ProductDto;
+import com.selloramotsheki.eCommerce.exeptions.AlreadyExistsException;
 import com.selloramotsheki.eCommerce.exeptions.ProductNotFoundExecption;
 import com.selloramotsheki.eCommerce.model.Image;
 import com.selloramotsheki.eCommerce.model.Product;
@@ -33,6 +34,10 @@ public class ProductService implements IProductService{
         //if no, save it as a new category
         //Then set as the new product category
 
+        if(productExists(request.getName(), request.getBrand())) {
+            throw new AlreadyExistsException(request.getName()+ " "+request.getBrand()+ " already exists, you may update the product instead!");
+        }
+
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(()-> {
                     Category newCategory = new Category(request.getCategory().getName());
@@ -40,6 +45,10 @@ public class ProductService implements IProductService{
                 });
         request.setCategory(category);
         return productRepository.save(createProduct(request, category));
+    }
+
+    private boolean productExists(String name, String brand) {
+        return productRepository.existsByNameAndBrand(name, brand);
     }
 
     private Product createProduct(AddProductRequest request, Category category)
