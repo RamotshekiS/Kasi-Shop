@@ -24,8 +24,8 @@ import static org.springframework.http.HttpStatus.*;
 public class ProductController {
 
     private final IProductService productService;
-    
-    @GetMapping("/all")
+
+    @GetMapping(value = "/all", produces = "application/json")
     public ResponseEntity<ApiResponse> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         List<ProductDto> convertedProducts = productService.getCovertedProduct(products);
