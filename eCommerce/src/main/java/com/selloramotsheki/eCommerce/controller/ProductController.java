@@ -25,7 +25,7 @@ public class ProductController {
 
     private final IProductService productService;
 
-    @GetMapping(value = "/all", produces = "application/json")
+    @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         List<ProductDto> convertedProducts = productService.getCovertedProduct(products);
@@ -43,7 +43,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", produces = "application/json")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
         try {
             Product theProduct = productService.addProduct(product);
