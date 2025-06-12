@@ -31,7 +31,7 @@ constructor(private productService: ProductService) {}
   }
 
   getProductImage(product: Product): string {
-  return product.images?.length ? product.images[0].imageUrl : 'assets/default-product.png';
+  return product.images?.length ? product.images[0].imageUrl : 'assets/default-product.jpeg';
   }
 
 
