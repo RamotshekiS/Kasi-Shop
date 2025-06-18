@@ -2,6 +2,7 @@ package com.selloramotsheki.eCommerce.service.cart;
 
 import com.selloramotsheki.eCommerce.exeptions.ResourceNotFoundException;
 import com.selloramotsheki.eCommerce.model.Cart;
+import com.selloramotsheki.eCommerce.model.User;
 import com.selloramotsheki.eCommerce.repository.CartItemRepository;
 import com.selloramotsheki.eCommerce.repository.CartRepository;
 import jakarta.transaction.Transactional;
@@ -54,5 +55,10 @@ public class CartService implements ICartService {
     @Override
     public Cart getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Cart initializeNewCart(User user) {
+        return null;
     }
 }
