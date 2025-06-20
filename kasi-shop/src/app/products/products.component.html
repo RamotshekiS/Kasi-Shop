@@ -1,10 +1,8 @@
 <div class="product-container">
   <div class="product-card" *ngFor="let product of products">
-<!--    <img src="https://hisenseshop.co.ke/wp-content/uploads/2024/05/Hisense-REF091DR-91L-.jpeg" alt="{{ product.name }}" />-->
-    <img src="https://hisenseshop.co.ke/wp-content/uploads/2024/05/Hisense-REF091DR-91L-.jpeg" alt="{{ product.name }}">
+    <img [src]="getProductImage(product)" alt="{{ product.name }}" />
     <h3>{{ product.name }}</h3>
     <p>{{ product.description }}</p>
-
     <div class="price-cart">
       <span class="price">R{{ product.price }}</span>
       <button (click)="addToCart(product)">Add to Cart</button>

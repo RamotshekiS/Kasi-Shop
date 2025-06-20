@@ -9,8 +9,10 @@ description: string;
 price: number;
 inventory: number;
 category?: { id: number; name: string };
-images?: { id: number; imageUrl: string }[];
+images?: { imageId: number; imageName: string; downloadUrl: string }[];
 }
+
+
 
 @Component({
 selector: 'app-products',
@@ -30,9 +32,16 @@ constructor(private productService: ProductService) {}
     });
   }
 
-  getProductImage(product: Product): string {
-  return product.images?.length ? product.images[0].imageUrl : 'assets/default-product.jpeg';
+ getProductImage(product: Product): string {
+  if (product.images?.length) {
+    const url = 'http://localhost:8080' + product.images[0].downloadUrl;
+    console.log('Product image URL:', url);
+    return url;
   }
+  return 'assets/default-product.jpeg';
+}
+
+
 
 
   addToCart(product: Product) {

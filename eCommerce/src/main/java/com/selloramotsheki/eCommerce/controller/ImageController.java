@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -41,11 +42,22 @@ public class ImageController {
 
     @GetMapping("/image/download/{imageId}")
     public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId) throws SQLException {
-            Image image = imageService.getImageById(imageId);
-            ByteArrayResource resource = new ByteArrayResource(image.getImage.getBytes());
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + image.getFileName() + "\"")
-                    .body(resource);
+        Image image = imageService.getImageById(imageId);
+        if (image == null || image.getImage() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Assuming image.getImage() returns a Blob
+        Blob blob = image.getImage();
+        int blobLength = (int) blob.length(); // get the length of the blob
+        byte[] imageBytes = blob.getBytes(1, blobLength); // read all bytes (1-based index)
+
+        ByteArrayResource resource = new ByteArrayResource(imageBytes);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(image.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + image.getFileName() + "\"")
+                .body(resource);
     }
 
     @PutMapping("/image/{imageId}/update ")

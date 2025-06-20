@@ -10,8 +10,15 @@ brand: string;
 description: string;
 price: number;
 inventory: number;
-category?: { id: number; name: string };
-images?: { id: number; imageUrl: string }[];
+category: {
+id: number;
+name: string;
+};
+images: {
+imageId: number;
+imageName: string;
+downloadUrl: string;
+}[];
 }
 
 @Injectable({ providedIn: 'root' })
